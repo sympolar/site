@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SymPolar — Easy Websites for Small & Underrepresented Businesses</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg:           #060f1a;
+      --bg-2:         #081525;
+      --bg-card:      rgba(255,255,255,.045);
+      --txt:          #eef4ff;
+      --muted:        #7a9dbf;
+      --muted2:       #4a6a85;
+      --sky:          #87ceeb;
+      --sky-dim:      rgba(135,206,235,.15);
+      --coral:        #ff7f6e;
+      --coral-dim:    rgba(255,127,110,.12);
+      --peach:        #ffb38a;
+      --mint:         #6de8c8;
+      --gold:         #f5c842;
+      --violet:       #a78bfa;
+      --glass:        rgba(255,255,255,.042);
+      --glass-border: rgba(255,255,255,.085);
+      --glass-hover:  rgba(255,255,255,.075);
+      --radius:       20px;
+      --radius-sm:    13px;
+      --radius-xs:    8px;
+      --shadow:       0 8px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
+      --glow-sky:     0 0 30px rgba(135,206,235,.2);
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 15% -10%, rgba(135,206,235,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% 110%, rgba(255,127,110,.06) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 60% at 50% 50%, rgba(167,139,250,.04) 0%, transparent 70%);
+      color: var(--txt);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.4;
+      z-index: -2;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(6,15,26,.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--sky);
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 42px;
+      width: auto;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 28px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--sky);
+    }
+
+    main { padding-top: 120px; }
+
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 32px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1, h2, h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    h1 { font-size: clamp(48px, 8vw, 90px); margin-bottom: 24px; }
+    h2 { font-size: clamp(36px, 6vw, 54px); margin-bottom: 32px; color: var(--txt); }
+    h2 span { background: linear-gradient(135deg, var(--sky), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .hero {
+      text-align: center;
+      padding: 140px 32px 100px;
+    }
+
+    .hero p { max-width: 680px; margin: 0 auto 40px; font-size: 18px; color: var(--muted); }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(135,206,235,.22), rgba(109,232,200,.18));
+      border: 1px solid rgba(135,206,235,.45);
+      color: var(--sky);
+      padding: 16px 38px;
+      border-radius: var(--radius-sm);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      text-decoration: none;
+      transition: all 0.22s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(135,206,235,.35), rgba(109,232,200,.28));
+      box-shadow: var(--glow-sky);
+      transform: translateY(-2px);
+      color: #e0f7ff;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin: 40px 0;
+    }
+
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .team-member {
+      text-align: center;
+    }
+
+    .team-member .avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: var(--muted2);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      color: var(--muted);
+      overflow: hidden;
+    }
+
+    .team-member img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    footer {
+      text-align: center;
+      padding: 60px 32px 100px;
+      color: var(--muted2);
+      font-size: 14px;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    #intake { padding: 40px 20px; background: var(--bg-2); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="#home" class="logo">
+      <img src="https://images.unsplash.com/photo-1622297844-21b3c0d4e4c0?w=80&auto=format&fit=crop" alt="SymPolar Polar Bear Icon" /> <!-- Replace with your actual icon -->
+      SymPolar
+    </a>
+    <nav>
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#templates">Templates</a>
+      <a href="#projects">Projects</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#premium">Premium</a>
+      <a href="#ai-growth">AI Growth</a>
+      <a href="#intake">Get Your Site</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section id="home" class="hero">
+    <h1>Launch Your Professional Website <span>in Days</span></h1>
+    <p>SymPolar is the easiest way for small and underrepresented businesses to get a modern, fast, fully functional website — with optional premium upgrades and AI-powered growth tools. No coding. No stress. Subscription starts low + add what you need.</p>
+    <a href="#intake" class="btn">Start Your Website Now →</a>
+  </section>
+
+  <section id="about">
+    <h2 class="text-center">Who We Are</h2>
+    <p class="text-center" style="max-width:680px;margin:0 auto 60px;color:var(--muted);">A small team passionate about helping underrepresented entrepreneurs get online with beautiful, affordable websites and real growth support.</p>
+    
+    <div class="card-grid">
+      <div class="card team-member">
+        <div class="avatar">
+          <!-- Placeholder – replace src when ready -->
+          <img src="https://via.placeholder.com/160/4a6a85/ffffff?text=J" alt="Josh" />
+        </div>
+        <h3>Josh</h3>
+        <p style="color:var(--muted);">Founder & Lead Designer — obsessed with clean UX and helping small businesses shine online.</p>
+      </div>
+      <div class="card team-member">
+        <div class="avatar">
+          <img src="https://via.placeholder.com/160/4a6a85/ffffff?text=V" alt="Vince" />
+        </div>
+        <h3>Vince</h3>
+        <p style="color:var(--muted);">Tech & Growth — builds the systems and AI tools so your site works harder for you.</p>
+      </div>
+      <div class="card team-member">
+        <div class="avatar">
+          <img src="https://via.placeholder.com/160/4a6a85/ffffff?text=W" alt="Wes" />
+        </div>
+        <h3>Wes</h3>
+        <p style="color:var(--muted);">Operations & Support — makes sure every client gets a smooth experience from intake to launch.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="templates">
+    <h2>Template Gallery</h2>
+    <p>Browse our curated, modern templates — all fully customizable during your intake process.</p>
+    <div class="card-grid">
+      <!-- Add real thumbnails later; using placeholders -->
+      <div class="card"><img src="https://via.placeholder.com/400x280/081525/87ceeb?text=Clean+Business" alt="Template 1" style="width:100%;border-radius:var(--radius-xs);"></div>
+      <div class="card"><img src="https://via.placeholder.com/400x280/081525/87ceeb?text=Service+Pro" alt="Template 2" style="width:100%;border-radius:var(--radius-xs);"></div>
+      <div class="card"><img src="https://via.placeholder.com/400x280/081525/87ceeb?text=Creative+Studio" alt="Template 3" style="width:100%;border-radius:var(--radius-xs);"></div>
+      <div class="card"><img src="https://via.placeholder.com/400x280/081525/87ceeb?text=Local+Services" alt="Template 4" style="width:100%;border-radius:var(--radius-xs);"></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <p>Coming soon — real examples of businesses we've helped launch.</p>
+    <!-- Add portfolio grid later -->
+  </section>
+
+  <section id="testimonials">
+    <h2>Testimonials</h2>
+    <p>What early clients say about working with SymPolar.</p>
+    <!-- Add quote cards later -->
+  </section>
+
+  <section id="premium">
+    <h2>Premium Features & Add-ons</h2>
+    <p>Base subscription gives you a solid site. Unlock powerful extras:</p>
+    <ul style="list-style:none;padding-left:0;max-width:680px;margin:32px auto;font-size:17px;line-height:2.1;">
+      <li>• Advanced SEO optimization</li>
+      <li>• Booking & scheduling integration</li>
+      <li>• Custom animations & interactions</li>
+      <li>• E-commerce / payment gateways</li>
+      <li>• Blog & content tools</li>
+      <li>• Monthly performance reports</li>
+    </ul>
+    <p style="text-align:center;margin-top:40px;"><a href="#intake" class="btn">See Pricing & Add-ons in Intake →</a></p>
+  </section>
+
+  <section id="ai-growth">
+    <h2>AI Digital Growth Suite</h2>
+    <p>100+ AI-powered services to help your business grow — content, ads, social, analytics, and more. Available as add-on packages.</p>
+    <div class="card" style="max-width:760px;margin:40px auto;text-align:center;">
+      <h3>Unlock AI tools like:</h3>
+      <p style="font-size:18px;color:var(--muted);margin:24px 0;">AI copywriting • Image generation • Ad creatives • Customer insights • SEO audits • Social posting • Review automation • and 90+ more</p>
+      <a href="#intake" class="btn">Add AI Growth in Your Plan →</a>
+    </div>
+  </section>
+
+  <section id="intake">
+    <h2>Launch Your Website — Start Here</h2>
+    <p>Fill out the quick intake form below. We'll build your custom quote and get your site live fast.</p>
+    
+    <div class="card" style="padding:0;overflow:hidden;">
+      <!-- 
+        Embedded adapted intake form 
+        For production: host the full form HTML separately or use iframe / JS load.
+        Here showing minimal integration point — replace with your full form code.
+      -->
+      <iframe 
+        srcdoc='
+          <h3 style="padding:32px;text-align:center;">Intake Form Loading...</h3>
+          <p style="text-align:center;color:#7a9dbf;">(Paste your full client-intake-form HTML here or load via src)</p>
+        ' 
+        style="width:100%;height:1600px;border:none;"
+        title="SymPolar Website Intake Form">
+      </iframe>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 SymPolar — Easy websites for small & underrepresented businesses.<br>
+  Not legal/financial advice. All rights reserved.
+</footer>
+
+<script>
+  // Simple SPA navigation (highlight active + smooth scroll)
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+        
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // Reveal sections on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+</script>
+</body>
+</html>
